@@ -2,12 +2,13 @@
 const lessonTitle = "恐龙无所不在";
 
 const lessonData = [
-
+    // 作者行
     ["作者", "zuò zhě", "author", "penulis"],
     ["：", "", "", ""],
     ["艾萨克·艾西莫夫", "Ài sà kè · Ài xī mò fū", "Isaac Asimov (famous science fiction writer and biochemist)", "Isaac Asimov"],
     ["\n", "", "", ""], // 分段标记
-        // 第 1 段
+    
+    // 正文真正从这里开始算第 1 段
     ["不同", "bù tóng", "different / distinct", "berbeza"],
     ["科学", "kē xué", "science / scientific", "sains / saintifik"],
     ["领域", "lǐng yù", "field / domain", "bidang"],
@@ -70,7 +71,7 @@ const lessonData = [
     ["的", "de", "of", "punya"],
     ["南端", "nán duān", "southern tip", "hujung selatan"],
     ["。", "", "", ""],
-    ["这些", "zhè xiē", "these", "semua ini"],
+    ["these", "zhè xiē", "these", "semua ini"],
     ["骨头", "gǔ tou", "bones", "tulang"],
     ["毫无疑问", "háo wú yí wèn", "without a doubt", "tanpa sebarang ragu / tidak syak lagi"],
     ["属于", "shǔ yú", "belong to", "tergolong dalam / milik"],
@@ -91,7 +92,7 @@ const lessonData = [
     ["化石", "huà shí", "fossil", "fosil"],
     ["。", "", "", ""],
     ["这些", "zhè xiē", "these", "semua ini"],
-    ["古老", "gǔ lǎo", "ancient", "purba / kuno"],
+    ["古老", "gǔ lǎo", "ancient", "purba"],
     ["的", "de", "of", "yang"],
     ["爬行动物", "pá xíng dòng wù", "reptile", "haiwan reptilia"],
     ["在", "zài", "in", "di"],
@@ -153,7 +154,7 @@ const lessonData = [
     ["确实", "què shí", "indeed", "memang benar"],
     ["发现", "fā xiàn", "found / discovered", "menemui"],
     ["了", "le", "particle", "sudah"],
-    ["这种", "zhè zhǒng", "this kind of", "jenis ini"],
+    ["这种", "zhè zhọ́ng", "this kind of", "jenis ini"],
     ["古老", "gǔ lǎo", "ancient", "purba"],
     ["的", "de", "of", "yang"],
     ["动物", "dòng wù", "animal", "haiwan"],
@@ -215,7 +216,7 @@ const lessonData = [
     ["但", "dàn", "but", "tetapi"],
     ["又", "yòu", "also / again", "juga / pula"],
     ["在", "zài", "in the process of", "sedang"],
-    ["缓慢", "huǎn màn", "slow", "perlahan / lambat"],
+    ["缓慢", "huǎn慢", "slow", "perlahan / lambat"],
     ["运动", "yùn dòng", "moving / movement", "bergerak / pergerakan"],
     ["的", "de", "of", "yang"],
     ["大板块", "dà bǎn kuài", "large plates", "plat tektonik besar"],
@@ -227,7 +228,6 @@ const lessonData = [
     ["被", "bèi", "by (passive voice)", "di- / oleh"],
     ["拉开", "lā kāi", "pull apart / separate", "ditarik lari / dipisahkan"],
     ["，", "", "", ""],
-    ["\n", "", "", ""], // 小切分
     ["而", "ér", "while / but", "manakala"],
     ["另一些", "lìng yì xiē", "others", "yang lain pula"],
     ["则", "zé", "then / on the other hand", "maka / pula"],
@@ -271,7 +271,7 @@ const lessonData = [
     ["海洋深渊", "hǎi yáng shēn yuān", "ocean trenches / abyss", "jurang lautan"],
     ["等等", "děng děng", "etc / and so on", "dan sebagainya"],
     ["，", "", "", ""],
-    ["这些", "zhè xiē", "these", "semua ini"],
+    ["these", "zhè xiē", "these", "semua ini"],
     ["在", "zài", "in", "pada masa"],
     ["以前", "yǐ qián", "before / past", "dahulu / sebelum ini"],
     ["一直", "yì zhí", "always / continuously", "sentiasa / berterusan"],
@@ -691,14 +691,39 @@ function render() {
     const cnt = document.getElementById('content'); 
     cnt.innerHTML = "";
     let pNum = 1; 
-    let p = createP(pNum);
+    let p = document.createElement("p"); // 创建一个干净的段落标签
+    
+    // 🚀【核心升级】负责把收集好的段落渲染上屏，并智能判断是否属于作者行
+    function finalizeParagraph(paragraphElement) {
+        if (paragraphElement.childNodes.length === 0) return;
+        
+        // 智能判定规则：如果是整篇课文的第一段，并且文本中包含“作者：”或以“作者”开头
+        const textContent = paragraphElement.innerText.trim();
+        const isAuthorLine = (pNum === 1 && (textContent.startsWith("作者") || textContent.includes("作者：")));
+        
+        if (isAuthorLine) {
+            // 如果是作者段落：不给段落编号，并且进行独立的副标题精致美化排版
+            paragraphElement.style.textIndent = "0";
+            paragraphElement.style.textAlign = "center";
+            paragraphElement.style.color = "#666666";
+            paragraphElement.style.fontSize = "16px";
+            paragraphElement.style.marginTop = "-15px";  // 缩短与主标题的间距
+            paragraphElement.style.marginBottom = "35px"; // 留出与正文的距离
+        } else {
+            // 如果是常规正文段落：自动在开头注入绝对定位的段落标号（如第1段、第2段）
+            let s = document.createElement("span");
+            s.className = "p-index";
+            s.innerText = "第" + pNum + "段";
+            paragraphElement.insertBefore(s, paragraphElement.firstChild); // 塞到段落最前面
+            pNum++; // 只有正文段落才会增加段落计数
+        }
+        cnt.appendChild(paragraphElement);
+    }
+
     lessonData.forEach((d, i) => {
         if (d[0] === "\n") { 
-            if(p.childNodes.length > 1) { 
-                cnt.appendChild(p); 
-                pNum++; 
-            } 
-            p = createP(pNum); 
+            finalizeParagraph(p);
+            p = document.createElement("p"); 
         }
         else if (d[1] === "") { 
             let s = document.createElement("span"); 
@@ -718,16 +743,7 @@ function render() {
             p.appendChild(r);
         }
     });
-    cnt.appendChild(p);
-}
-
-function createP(n) { 
-    let p = document.createElement("p"); 
-    let s = document.createElement("span"); 
-    s.className = "p-index"; 
-    s.innerText = "第" + n + "段"; 
-    p.appendChild(s); 
-    return p; 
+    finalizeParagraph(p);
 }
 
 function openPop(el, i) {
