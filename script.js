@@ -71,7 +71,7 @@ const lessonData = [
     ["的", "de", "of", "punya"],
     ["南端", "nán duān", "southern tip", "hujung selatan"],
     ["。", "", "", ""],
-    ["these", "zhè xiē", "these", "semua ini"],
+    ["这些", "zhè xiē", "these", "semua ini"],
     ["骨头", "gǔ tou", "bones", "tulang"],
     ["毫无疑问", "háo wú yí wèn", "without a doubt", "tanpa sebarang ragu / tidak syak lagi"],
     ["属于", "shǔ yú", "belong to", "tergolong dalam / milik"],
