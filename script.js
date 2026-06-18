@@ -271,7 +271,7 @@ const lessonData = [
     ["海洋深渊", "hǎi yáng shēn yuān", "ocean trenches / abyss", "jurang lautan"],
     ["等等", "děng děng", "etc / and so on", "dan sebagainya"],
     ["，", "", "", ""],
-    ["these", "zhè xiē", "these", "semua ini"],
+    ["这些", "zhè xiē", "these", "semua ini"],
     ["在", "zài", "in", "pada masa"],
     ["以前", "yǐ qián", "before / past", "dahulu / sebelum ini"],
     ["一直", "yì zhí", "always / continuously", "sentiasa / berterusan"],
