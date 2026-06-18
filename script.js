@@ -2,12 +2,12 @@
 const lessonTitle = "恐龙无所不在";
 
 const lessonData = [
-    // 第 1 段
+
     ["作者", "zuò zhě", "author", "penulis"],
     ["：", "", "", ""],
     ["艾萨克·艾西莫夫", "Ài sà kè · Ài xī mò fū", "Isaac Asimov (famous science fiction writer and biochemist)", "Isaac Asimov"],
     ["\n", "", "", ""], // 分段标记
-    
+        // 第 1 段
     ["不同", "bù tóng", "different / distinct", "berbeza"],
     ["科学", "kē xué", "science / scientific", "sains / saintifik"],
     ["领域", "lǐng yù", "field / domain", "bidang"],
